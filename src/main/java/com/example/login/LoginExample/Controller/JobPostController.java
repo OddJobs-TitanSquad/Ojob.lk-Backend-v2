@@ -10,7 +10,8 @@ import java.util.Date;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+
+@CrossOrigin(origins="http://localhost:4200",allowedHeaders="*")
 @RequestMapping("/api/user/post-jobs")
 public class JobPostController {
     @Autowired
@@ -30,10 +31,11 @@ public class JobPostController {
     }
     @RequestMapping(value = "/repost",method = RequestMethod.POST)
     public JobPost rePost(@RequestBody JobPost jobpost) {
-        jobpost.setIsPublish(false);
+      jobpost.setIsPublish(false);
         jobpost.setPostedDateTime(getTimeStamp());
         if((jobpost.getExpireDate()).compareTo(getTimeStamp()) < 0)
             jobpost.setExpireDate(getTimeStamp());
+
         this.updateJobPost(jobpost,jobpost.getJobId());
         return jobpost;
     }
@@ -89,6 +91,7 @@ public class JobPostController {
         jobPost.setIsPublish(false);
         return jobPostRepository.save(jobPost);
     }
+
 
 
 }
