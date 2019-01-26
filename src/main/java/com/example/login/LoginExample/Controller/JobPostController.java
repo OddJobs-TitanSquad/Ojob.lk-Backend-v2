@@ -11,8 +11,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("" +
-        "")
+@RequestMapping("/api/user/post-jobs")
 public class JobPostController {
     @Autowired
     private final JobPostRepository jobPostRepository;
@@ -59,7 +58,7 @@ public class JobPostController {
         return jobPostRepository.findByJobId(id);
     }
 
-    @RequestMapping(value = "jobTitle/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "job-title/{id}", method = RequestMethod.GET)
     public @ResponseBody
     String getPostedJobsTitleByJobId(@PathVariable long id) {
         JobPost jobPost =jobPostRepository.findByJobId(id);
@@ -90,5 +89,6 @@ public class JobPostController {
         jobPost.setIsPublish(false);
         return jobPostRepository.save(jobPost);
     }
+
 
 }
