@@ -102,12 +102,15 @@ public class JobPostController {
 
 
     @GetMapping("/job/jobTitle/{id}")
-    public String findUserName(@PathVariable (value = "id") long id){
+    public JobPost findUserName(@PathVariable (value = "id") long id){
        Optional<JobApplication> optional= jobApplicationRepository.findById(id);
        JobApplication  ja;
        ja=optional.get();
-       JobPost jp= jobPostRepository.findByJobId(ja.getJobId());
-       return jp.getTitle();
+
+       JobPost job= jobPostRepository.findByJobId(ja.getJobId());
+
+       return job;
+
     }
 
 

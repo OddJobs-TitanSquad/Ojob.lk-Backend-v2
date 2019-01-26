@@ -32,12 +32,14 @@ public class CompletedJobController {
         return new Timestamp(date.getTime());
     }
 
+    // user seeker knk wen welawta
     @GetMapping("/seeker/{userId}")
     public List<CompletedJob> completeSeeker(@PathVariable(value = "userId") long userId) {
         List<CompletedJob>  seeker= completedJobRepository.findBySeekerId(userId);
         return seeker;
     }
 
+    // user provider knk wen welwt
     @GetMapping("/provider/{userId}")
     public List<CompletedJob> completeProvider(@PathVariable(value = "userId") long userId) {
         List<CompletedJob>  provider= completedJobRepository.findByProviderId(userId);
