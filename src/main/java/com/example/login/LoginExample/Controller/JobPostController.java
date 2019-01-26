@@ -59,7 +59,7 @@ public class JobPostController {
         return jobPostRepository.findByJobId(id);
     }
 
-    @RequestMapping(value = "name/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "jobTitle/{id}", method = RequestMethod.GET)
     public @ResponseBody
     String getPostedJobsTitleByJobId(@PathVariable long id) {
         JobPost jobPost =jobPostRepository.findByJobId(id);
