@@ -1,12 +1,15 @@
 package com.example.login.LoginExample.Controller;
 
 import com.example.login.LoginExample.Models.CompletedJob;
+import com.example.login.LoginExample.Models.FinalComplete;
+import com.example.login.LoginExample.Models.Notification;
 import com.example.login.LoginExample.Repository.CompletedJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 
@@ -28,4 +31,18 @@ public class CompletedJobController {
         Date date = new Date();
         return new Timestamp(date.getTime());
     }
+
+    @GetMapping("/seeker/{userId}")
+    public List<CompletedJob> completeSeeker(@PathVariable(value = "userId") long userId) {
+        List<CompletedJob>  seeker= completedJobRepository.findBySeekerId(userId);
+        return seeker;
+    }
+
+    @GetMapping("/provider/{userId}")
+    public List<CompletedJob> completeProvider(@PathVariable(value = "userId") long userId) {
+        List<CompletedJob>  provider= completedJobRepository.findByProviderId(userId);
+        return provider;
+    }
+
+
 }

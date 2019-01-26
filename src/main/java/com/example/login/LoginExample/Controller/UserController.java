@@ -108,4 +108,12 @@ public class UserController {
        long stars = rateRepository.fiveStars(personalId);
        return stars;
     }
+
+    @GetMapping("/user/userName/{id}")
+    public String findUserName(@PathVariable (value = "id") long id){
+        Optional <User> optional=userRepository.findById(id);
+        User user;
+        user= optional.get();
+        return user.getUsername();
+    }
 }

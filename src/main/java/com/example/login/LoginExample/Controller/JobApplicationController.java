@@ -1,12 +1,14 @@
 package com.example.login.LoginExample.Controller;
 
 import com.example.login.LoginExample.Models.JobApplication;
+import com.example.login.LoginExample.Models.User;
 import com.example.login.LoginExample.Repository.JobApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 
@@ -15,6 +17,7 @@ import java.util.Date;
 public class JobApplicationController {
     @Autowired
     private final JobApplicationRepository jobApplicationRepository;
+
 
 
     public JobApplicationController(JobApplicationRepository jobApplicationRepository ) {
@@ -49,5 +52,13 @@ public class JobApplicationController {
     public Date getTimeStamp(){
         Date date = new Date();
         return new Timestamp(date.getTime());
+    }
+
+    @GetMapping("/job/jobId/{id}")
+    public long findJobId(@PathVariable (value = "id") long id){
+        Optional<JobApplication> optional=jobApplicationRepository.findById(id);
+        JobApplication ja;
+        ja= optional.get();
+        return ja.getApplicationId();
     }
 }
