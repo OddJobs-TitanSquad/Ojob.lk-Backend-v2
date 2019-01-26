@@ -1,7 +1,9 @@
 package com.example.login.LoginExample.Controller;
 
 
+import com.example.login.LoginExample.Exception.ResourceNotFoundException;
 import com.example.login.LoginExample.Models.User;
+import com.example.login.LoginExample.PayLoad.EditRequest;
 import com.example.login.LoginExample.Repository.UserRepository;
 import com.example.login.LoginExample.Services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.MulticastSocket;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,8 +51,27 @@ public class PasswordController {
         User user=optional.get();
         user.setResetToken(null);
         user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
 
 
+    }
+
+
+    @PutMapping("/Update/{id}")
+    public User updateProfile(@PathVariable(value = "id") Long id,
+                              @Valid @RequestBody EditRequest userDetails) {
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+
+
+
+        user.setName(userDetails.getName());
+        user.setUsername(userDetails.getUsername());
+        user.setEmail(userDetails.getEmail());
+        User updatedUser = userRepository.save(user);
+
+        return updatedUser;
     }
 
 }

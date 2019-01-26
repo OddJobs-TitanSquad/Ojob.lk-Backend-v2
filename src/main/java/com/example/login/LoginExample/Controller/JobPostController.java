@@ -1,6 +1,9 @@
 package com.example.login.LoginExample.Controller;
 
+import com.example.login.LoginExample.Models.JobApplication;
 import com.example.login.LoginExample.Models.JobPost;
+import com.example.login.LoginExample.Models.User;
+import com.example.login.LoginExample.Repository.JobApplicationRepository;
 import com.example.login.LoginExample.Repository.JobPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +19,14 @@ public class JobPostController {
     @Autowired
     private final JobPostRepository jobPostRepository;
 
-    public JobPostController(JobPostRepository jobPostRepository) {
+    @Autowired
+    private final JobApplicationRepository jobApplicationRepository;
+
+
+
+    public JobPostController(JobPostRepository jobPostRepository,JobApplicationRepository jobApplicationRepository) {
         this.jobPostRepository = jobPostRepository;
+        this.jobApplicationRepository=jobApplicationRepository;
     }
 
 
@@ -88,6 +97,17 @@ public class JobPostController {
     public JobPost unpublishJobPost(@RequestBody JobPost jobPost) {
         jobPost.setIsPublish(false);
         return jobPostRepository.save(jobPost);
+    }
+
+
+    @GetMapping("/job/jobTitle/{id}")
+    public String findUserName(@PathVariable (value = "id") long id){
+       Optional<JobApplication> optional= jobApplicationRepository.findById(id);
+       JobApplication  ja;
+       ja=optional.get();
+       JobPost jp= jobPostRepository.findByJobId(ja.getJobId());
+
+       return jp.getTitle();
     }
 
 
