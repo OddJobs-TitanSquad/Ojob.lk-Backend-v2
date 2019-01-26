@@ -84,6 +84,8 @@ public class AuthController {
                 .orElseThrow(() -> new AppException("User Role not set."));
 
         user.setRoles(Collections.singleton(userRole));*/
+        user.setActive(true);
+        user.setAdmin(false);
 
         User result = userRepository.save(user);
 

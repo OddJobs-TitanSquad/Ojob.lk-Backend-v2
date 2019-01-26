@@ -1,7 +1,9 @@
 package com.example.login.LoginExample.Controller;
 
+import com.example.login.LoginExample.Models.JobApplication;
 import com.example.login.LoginExample.Models.JobPayment;
 import com.example.login.LoginExample.Models.JobPost;
+import com.example.login.LoginExample.Repository.JobApplicationRepository;
 import com.example.login.LoginExample.Repository.JobPaymentRepository;
 import com.example.login.LoginExample.Repository.JobPostRepository;
 import com.example.login.LoginExample.Repository.PaymentPackageRepository;
@@ -23,10 +25,14 @@ public class JobPaymentController {
     @Autowired
     private final PaymentPackageRepository paymentPackageRepository;
 
-    public JobPaymentController(JobPaymentRepository jobPaymentRepository, JobPostRepository jobPostRepository, PaymentPackageRepository paymentPackageRepository) {
+    @Autowired
+    private final JobApplicationRepository jobApplicationRepository;
+
+    public JobPaymentController(JobPaymentRepository jobPaymentRepository, JobPostRepository jobPostRepository, PaymentPackageRepository paymentPackageRepository, JobApplicationRepository jobApplicationRepository) {
         this.jobPaymentRepository = jobPaymentRepository;
         this.jobPostRepository = jobPostRepository;
         this.paymentPackageRepository=paymentPackageRepository;
+        this.jobApplicationRepository=jobApplicationRepository;
 
     }
 
@@ -34,7 +40,7 @@ public class JobPaymentController {
    // @CrossOrigin(origins = "http://localhost:4200")
     public JobPayment makePayment(@RequestBody JobPayment jobPayment) {
         jobPayment.setDateTime(this.getTimeStamp());
-        JobPostController jobPostController=new JobPostController(this.jobPostRepository);
+        JobPostController jobPostController=new JobPostController(this.jobPostRepository, this.jobApplicationRepository);
         JobPost paidJobPost= jobPostController.getPostedJobsByJobId(jobPayment.getJobId());
         Date newExpireDate = extendDays(paidJobPost.getExpireDate(),getPackegeDuration(jobPayment.getPackageId()));
         paidJobPost.setExpireDate(newExpireDate);
