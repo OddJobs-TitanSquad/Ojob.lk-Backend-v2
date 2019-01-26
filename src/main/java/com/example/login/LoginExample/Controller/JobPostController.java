@@ -24,7 +24,6 @@ public class JobPostController {
     private final JobApplicationRepository jobApplicationRepository;
 
 
-
     public JobPostController(JobPostRepository jobPostRepository,JobApplicationRepository jobApplicationRepository) {
         this.jobPostRepository = jobPostRepository;
         this.jobApplicationRepository=jobApplicationRepository;
@@ -108,7 +107,6 @@ public class JobPostController {
        JobApplication  ja;
        ja=optional.get();
        JobPost jp= jobPostRepository.findByJobId(ja.getJobId());
-
        return jp.getTitle();
     }
 

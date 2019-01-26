@@ -30,6 +30,16 @@ public class JobApplicationController {
         return jobApplicationRepository.save(jobApplication);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE)
+    public Boolean delete(@RequestBody JobApplication jobApplication){
+        try {
+            jobApplicationRepository.delete(jobApplication);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public @ResponseBody
     Iterable<JobApplication> getAllJobApplications() {
