@@ -24,11 +24,12 @@ public class JobPost {
     private String addressLine2;
     private String city;
     private Boolean isPublish;
-    private Integer latitude;
-    private Integer longitude;
+    private Float latitude;
+    private Float longitude;
     private Date postedDateTime;
     private Date expireDate;
     private String jobType;
     private Long providerId;
+    private Date publishOnDate;
 
 }
