@@ -37,19 +37,18 @@ public class JobPaymentController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-   // @CrossOrigin(origins = "http://localhost:4200")
     public JobPayment makePayment(@RequestBody JobPayment jobPayment) {
         jobPayment.setDateTime(this.getTimeStamp());
         JobPostController jobPostController=new JobPostController(this.jobPostRepository, this.jobApplicationRepository);
         JobPost paidJobPost= jobPostController.getPostedJobsByJobId(jobPayment.getJobId());
         Date newExpireDate = extendDays(paidJobPost.getExpireDate(),getPackegeDuration(jobPayment.getPackageId()));
         paidJobPost.setExpireDate(newExpireDate);
+
         jobPostController.updateJobPost(paidJobPost,paidJobPost.getJobId());
         return jobPaymentRepository.save(jobPayment);
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-  //  @CrossOrigin(origins = "http://localhost:4200")
     public @ResponseBody
     Iterable<JobPayment> getAllJobPostPayments() {
         return jobPaymentRepository.findAll();
