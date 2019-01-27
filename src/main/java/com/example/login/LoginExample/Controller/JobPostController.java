@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Optional;
 
@@ -24,9 +26,9 @@ public class JobPostController {
     private final JobApplicationRepository jobApplicationRepository;
 
 
-    public JobPostController(JobPostRepository jobPostRepository,JobApplicationRepository jobApplicationRepository) {
+    public JobPostController(JobPostRepository jobPostRepository, JobApplicationRepository jobApplicationRepository) {
         this.jobPostRepository = jobPostRepository;
-        this.jobApplicationRepository=jobApplicationRepository;
+        this.jobApplicationRepository = jobApplicationRepository;
     }
 
 
@@ -37,16 +39,29 @@ public class JobPostController {
         jobpost.setExpireDate(getTimeStamp());
         return jobPostRepository.save(jobpost);
     }
-    @RequestMapping(value = "/repost",method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Boolean deleteJobPost( @PathVariable long id) {
+        try{
+            this.jobPostRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+
+    }
+
+    @RequestMapping(value = "/repost", method = RequestMethod.POST)
     public JobPost rePost(@RequestBody JobPost jobpost) {
-      jobpost.setIsPublish(false);
+        jobpost.setIsPublish(false);
         jobpost.setPostedDateTime(getTimeStamp());
-        if((jobpost.getExpireDate()).compareTo(getTimeStamp()) < 0)
+        if ((jobpost.getExpireDate()).compareTo(getTimeStamp()) < 0)
             jobpost.setExpireDate(getTimeStamp());
 
-        this.updateJobPost(jobpost,jobpost.getJobId());
+        this.updateJobPost(jobpost, jobpost.getJobId());
         return jobpost;
     }
+
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public @ResponseBody
     Iterable<JobPost> getAllJobPosts() {
@@ -62,6 +77,7 @@ public class JobPostController {
         jobPostRepository.save(jobPost);
         return true;
     }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody
     JobPost getPostedJobsByJobId(@PathVariable long id) {
@@ -71,7 +87,7 @@ public class JobPostController {
     @RequestMapping(value = "job-title/{id}", method = RequestMethod.GET)
     public @ResponseBody
     String getPostedJobsTitleByJobId(@PathVariable long id) {
-        JobPost jobPost =jobPostRepository.findByJobId(id);
+        JobPost jobPost = jobPostRepository.findByJobId(id);
         return jobPost.getTitle();
     }
 
@@ -80,13 +96,15 @@ public class JobPostController {
     Iterable<JobPost> getAllPostedJobsByUserId(@PathVariable long id) {
         return jobPostRepository.findByProviderId(id);
     }
-    public Date getTimeStamp(){
+
+    public Date getTimeStamp() {
         Date date = new Date();
         return new Timestamp(date.getTime());
     }
+
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
     public Boolean publishJobPost(@RequestBody JobPost jobPost) {
-        if((jobPost.getExpireDate()).compareTo(getTimeStamp()) >= 0) {
+        if ((jobPost.getExpireDate()).compareTo(getTimeStamp()) >= 0) {
             jobPost.setIsPublish(true);
             jobPostRepository.save(jobPost);
             return true;
@@ -102,17 +120,45 @@ public class JobPostController {
 
 
     @GetMapping("/job/jobTitle/{id}")
-    public JobPost findUserName(@PathVariable (value = "id") long id){
-       Optional<JobApplication> optional= jobApplicationRepository.findById(id);
-       JobApplication  ja;
-       ja=optional.get();
+    public JobPost findUserName(@PathVariable(value = "id") long id) {
+        Optional<JobApplication> optional = jobApplicationRepository.findById(id);
+        JobApplication ja;
+        ja = optional.get();
 
-       JobPost job= jobPostRepository.findByJobId(ja.getJobId());
+        JobPost job = jobPostRepository.findByJobId(ja.getJobId());
 
-       return job;
+        return job;
 
     }
 
+ @RequestMapping(value = "/publish-on", method = RequestMethod.POST)
+    public Boolean publishOnJobPost(@RequestBody JobPost jobPost) {
+        if ((jobPost.getExpireDate()).compareTo(getTimeStamp()) >= 0) {
+            if ((jobPost.getPublishOnDate()).compareTo(getTimeStamp()) >= 0) {
+                jobPost.setExpireDate(addDiff(jobPost.getPublishOnDate(),getDiff(jobPost.getPublishOnDate(), jobPost.getExpireDate())));
+                jobPost.setIsPublish(true);
+                jobPostRepository.save(jobPost);
+                return true;
+            }else{
+                jobPost.setExpireDate(addDiff(jobPost.getPublishOnDate(),getDiff(getTimeStamp(), jobPost.getExpireDate())));
+                jobPost.setIsPublish(true);
+                jobPostRepository.save(jobPost);
+                return true;
+            }
 
+        }
+        return false;
+    }
 
+    public int getDiff(Date d1, Date d2) {
+        long diff = d2.getTime() - d1.getTime();
+        int diffmin = (int) (diff / (60 * 1000));
+        return diffmin;
+    }
+    public Date addDiff(Date d2, int diffmin){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(d2);
+        calendar.add(Calendar.MINUTE, diffmin);
+        return calendar.getTime();
+    }
 }

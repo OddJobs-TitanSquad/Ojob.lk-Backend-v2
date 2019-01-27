@@ -18,6 +18,7 @@ public class CompletedJob {
     @GeneratedValue
     private long completedJobId;
     private long employerId;
+    private long employeeId;
     private long jobApplicationId;
     private Date completedDateTime;
 }
