@@ -31,7 +31,7 @@ public class PasswordController {
     @Autowired
     MailService mailService;
 
-    @PostMapping("/user/forgot/{email}")
+    @GetMapping("/user/forgot/{email}")
     public void getAllJobs(@PathVariable(value = "email") String email){
          JavaMailSender javaMailSender;
        Optional<User> optional=userRepository.findByEmail(email);
@@ -45,7 +45,7 @@ public class PasswordController {
 
     }
 
-    @PostMapping("/user/forgotEmail")
+    @GetMapping("/user/forgotEmail")
     public void makeComplain(@RequestBody String password,String resettoken ){
         Optional<User> optional=userRepository.findByResetToken(resettoken);
         User user=optional.get();

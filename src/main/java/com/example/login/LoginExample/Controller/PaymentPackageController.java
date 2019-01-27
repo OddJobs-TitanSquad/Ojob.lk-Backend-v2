@@ -5,7 +5,7 @@ import com.example.login.LoginExample.Repository.PaymentPackageRepository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:4200",allowedHeaders="*")
 @RequestMapping("api/user/post-jobs/payment-packages")
 public class PaymentPackageController {
 
@@ -15,8 +15,19 @@ public class PaymentPackageController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public PaymentPackage create(@RequestBody PaymentPackage paymentPackage) {
+    public PaymentPackage createPaymentPackage(@RequestBody PaymentPackage paymentPackage) {
         return paymentPackageRepository.save(paymentPackage);
+    }
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Boolean DeletePaymentPackage( @PathVariable int id) {
+        try{
+            this.paymentPackageRepository.deleteById(id);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
+
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

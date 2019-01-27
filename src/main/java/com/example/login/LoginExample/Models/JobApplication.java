@@ -23,6 +23,9 @@ public class JobApplication {
     private Date requestedDateTime;
     private Boolean isAccepted;
     private Date acceptedDate;
+    private Boolean isRejected;
+    private Date rejectedDate;
     private Boolean isConfirmed;
     private Date confirmedDate;
+
 }

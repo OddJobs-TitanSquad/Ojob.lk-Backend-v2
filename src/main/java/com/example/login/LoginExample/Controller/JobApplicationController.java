@@ -30,14 +30,16 @@ public class JobApplicationController {
         return jobApplicationRepository.save(jobApplication);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
-    public Boolean delete(@RequestBody JobApplication jobApplication){
-        try {
-            jobApplicationRepository.delete(jobApplication);
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public Boolean DeleteJobApplication( @PathVariable long id) {
+        try{
+            this.jobApplicationRepository.deleteById(id);
             return true;
         }catch (Exception e){
+            System.out.println(e.getMessage());
             return false;
         }
+
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -49,6 +51,13 @@ public class JobApplicationController {
     @RequestMapping(value = "/accept", method = RequestMethod.POST)
     public JobApplication acceptJobApplication(@RequestBody JobApplication jobApplication) {
        jobApplication.setIsAccepted(true);
+        jobApplication.setAcceptedDate(getTimeStamp());
+        jobApplicationRepository.save(jobApplication);
+        return jobApplication;
+    }
+    @RequestMapping(value = "/condfirm", method = RequestMethod.POST)
+    public JobApplication confirmJobApplication(@RequestBody JobApplication jobApplication) {
+        jobApplication.setIsConfirmed(true);
         jobApplication.setAcceptedDate(getTimeStamp());
         jobApplicationRepository.save(jobApplication);
         return jobApplication;

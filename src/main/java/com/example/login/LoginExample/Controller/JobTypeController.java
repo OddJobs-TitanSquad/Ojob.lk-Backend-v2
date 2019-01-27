@@ -15,7 +15,7 @@ public class JobTypeController {
         this.jobTypeRepository=jobTypeRepository;
     }
     @RequestMapping(method = RequestMethod.POST)
-    public JobType create(@RequestBody JobType jobType) {
+    public JobType createJobType(@RequestBody JobType jobType) {
         return jobTypeRepository.save(jobType);
     }
     @RequestMapping(value = "/all", method = RequestMethod.GET)
