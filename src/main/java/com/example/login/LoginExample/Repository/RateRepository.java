@@ -11,4 +11,7 @@ public interface RateRepository extends JpaRepository<Rate, Long> {
     @Query(value = "SELECT Count(r) from rate r WHERE r.personal_id=?1 ",nativeQuery = true)
     long fiveStars(long personal_id);
 
+    @Query(value = "SELECT Count(r) from rate r WHERE r.personal_id=?1 && r.rate=5 ",nativeQuery = true)
+    long CountFiveStar(long personal_id);
+
 }
