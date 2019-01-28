@@ -95,6 +95,7 @@ public class JobPostController {
     @RequestMapping(value = "/publish", method = RequestMethod.POST)
     public Boolean publishJobPost(@RequestBody JobPost jobPost) {
         if ((jobPost.getExpireDate()).compareTo(getTimeStamp()) >= 0) {
+            jobPost.setPublishOnDate(getTimeStamp());
             jobPost.setIsPublish(true);
             jobPostRepository.save(jobPost);
             return true;
@@ -105,6 +106,7 @@ public class JobPostController {
     @RequestMapping(value = "/unpublish", method = RequestMethod.POST)
     public JobPost unpublishJobPost(@RequestBody JobPost jobPost) {
         jobPost.setIsPublish(false);
+
         return jobPostRepository.save(jobPost);
     }
 
@@ -139,6 +141,12 @@ public class JobPostController {
         }
         return false;
     }
+    @RequestMapping(value = "/jobs/valid", method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<JobPost> getValidJobs(){
+        return jobPostRepository.findAllValidJobs(true);
+    }
+
 
     public int getDiff(Date d1, Date d2) {
         long diff = d2.getTime() - d1.getTime();
@@ -151,4 +159,5 @@ public class JobPostController {
         calendar.add(Calendar.MINUTE, diffmin);
         return calendar.getTime();
     }
+
 }
