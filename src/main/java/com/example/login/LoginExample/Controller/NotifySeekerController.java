@@ -6,6 +6,7 @@ import com.example.login.LoginExample.Repository.NotifySeekerRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -14,17 +15,17 @@ public class NotifySeekerController {
 
  private NotifySeekerRepository ns;
 
-    @GetMapping("/provider/{userId}")
+    @GetMapping("/seeker/{userId}")
     public List<NotifySeeker> completeSeeker(@PathVariable(value = "userId") long userId) {
         List<NotifySeeker>  Notifies= ns.NotifySeeker(userId);
         return Notifies;
     }
 
-    @RequestMapping(value = "/notifyProvider/delete", method = RequestMethod.DELETE)
-    public void delete(@RequestBody NotifySeeker notifySeeker) {
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable(value = "id") long id) {
+        Optional<NotifySeeker> notipro=ns.findById(id);
 
-        ns.delete(notifySeeker);
-
+        ns.delete(notipro.get());
 
     }
 }

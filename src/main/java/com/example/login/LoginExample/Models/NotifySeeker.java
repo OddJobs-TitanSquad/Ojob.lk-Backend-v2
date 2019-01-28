@@ -1,9 +1,11 @@
 package com.example.login.LoginExample.Models;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class NotifySeeker{
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +47,16 @@ public class NotifySeeker{
         private long providerId;
         private String Name;
         private String Notification;
+
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    private String jobTitle;
 
 
 }
