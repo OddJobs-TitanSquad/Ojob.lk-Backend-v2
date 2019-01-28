@@ -17,21 +17,15 @@ public class Rate {
         this.rate = rate;
         this.userId = userId;
         this.jobId = jobId;
-        this.personalId=personalId;
+
     }
 
     private long userId;
     private long jobId;
 
-    public long getPersonalId() {
-        return personalId;
-    }
 
-    public void setPersonalId(long personalId) {
-        this.personalId = personalId;
-    }
 
-    private long personalId;
+    
 
     public int getRate() {
         return rate;
