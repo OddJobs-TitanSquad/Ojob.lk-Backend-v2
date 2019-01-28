@@ -10,7 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+
+@CrossOrigin(origins="http://localhost:4200",allowedHeaders="*")
 @RequestMapping("api/user/completed-job")
 public class CompletedJobController {
     @Autowired

@@ -13,7 +13,8 @@ import java.util.Date;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+
+@CrossOrigin(origins="http://localhost:4200",allowedHeaders="*")
 @RequestMapping("/api/user/post-jobs")
 public class JobPostController {
     @Autowired
@@ -21,7 +22,6 @@ public class JobPostController {
 
     @Autowired
     private final JobApplicationRepository jobApplicationRepository;
-
 
 
     public JobPostController(JobPostRepository jobPostRepository,JobApplicationRepository jobApplicationRepository) {
@@ -39,10 +39,11 @@ public class JobPostController {
     }
     @RequestMapping(value = "/repost",method = RequestMethod.POST)
     public JobPost rePost(@RequestBody JobPost jobpost) {
-        jobpost.setIsPublish(false);
+      jobpost.setIsPublish(false);
         jobpost.setPostedDateTime(getTimeStamp());
         if((jobpost.getExpireDate()).compareTo(getTimeStamp()) < 0)
             jobpost.setExpireDate(getTimeStamp());
+
         this.updateJobPost(jobpost,jobpost.getJobId());
         return jobpost;
     }
@@ -105,10 +106,13 @@ public class JobPostController {
        Optional<JobApplication> optional= jobApplicationRepository.findById(id);
        JobApplication  ja;
        ja=optional.get();
+
        JobPost job= jobPostRepository.findByJobId(ja.getJobId());
 
        return job;
+
     }
+
 
 
 }

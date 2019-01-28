@@ -11,7 +11,8 @@ import java.util.Date;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+
+@CrossOrigin(origins="http://localhost:4200",allowedHeaders="*")
 @RequestMapping("api/user/job-applications")
 public class JobApplicationController {
     @Autowired
@@ -27,6 +28,16 @@ public class JobApplicationController {
     public JobApplication create(@RequestBody JobApplication jobApplication) {
         jobApplication.setRequestedDateTime(getTimeStamp());
         return jobApplicationRepository.save(jobApplication);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public Boolean delete(@RequestBody JobApplication jobApplication){
+        try {
+            jobApplicationRepository.delete(jobApplication);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -47,6 +58,7 @@ public class JobApplicationController {
     Iterable<JobApplication> getAllJobApplicationsByUserId(@PathVariable long id) {
         return jobApplicationRepository.findByUserId(id);
     }
+
     public Date getTimeStamp(){
         Date date = new Date();
         return new Timestamp(date.getTime());
