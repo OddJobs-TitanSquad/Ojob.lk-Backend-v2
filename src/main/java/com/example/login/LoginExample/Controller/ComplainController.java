@@ -15,6 +15,7 @@ public class ComplainController {
     public ComplainController(ComplainRepository complainRepository){
         this.complainRepository =complainRepository;
     }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Boolean updateComplain(@RequestBody Complain complain, @PathVariable long id) {
         Optional<Complain> complainOptional = complainRepository.findById(id);
@@ -40,6 +41,7 @@ public class ComplainController {
             return false;
         }
     }
+
 
 
 }

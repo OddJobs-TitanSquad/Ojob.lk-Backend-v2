@@ -118,9 +118,11 @@ public class UserController {
     }
     @GetMapping("/user/all")
     public Iterable<User> getAllUsers(){
+
         return this.userRepository.findAll();
     }
-    @RequestMapping(value = "/user/active/{id}", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/user/active/{id}", method = RequestMethod.PUT)
     public Boolean activeUser(@RequestBody User user, @PathVariable long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (!userOptional.isPresent())
@@ -131,7 +133,7 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/user/deactivate/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/deactivate/{id}", method = RequestMethod.PUT)
     public Boolean deactivateUser(@RequestBody User user, @PathVariable long id) {
         Optional<User> userOptional = userRepository.findById(id);
         if (!userOptional.isPresent())
