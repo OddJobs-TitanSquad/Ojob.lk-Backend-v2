@@ -51,16 +51,6 @@ public class JobPostController {
 
     }
 
-    @RequestMapping(value = "/repost", method = RequestMethod.POST)
-    public JobPost rePost(@RequestBody JobPost jobpost) {
-        jobpost.setIsPublish(false);
-        jobpost.setPostedDateTime(getTimeStamp());
-        if ((jobpost.getExpireDate()).compareTo(getTimeStamp()) < 0)
-            jobpost.setExpireDate(getTimeStamp());
-
-        this.updateJobPost(jobpost, jobpost.getJobId());
-        return jobpost;
-    }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public @ResponseBody

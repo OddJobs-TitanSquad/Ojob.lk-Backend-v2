@@ -21,7 +21,7 @@ public class Complain {
     private long id;
     private String complain;
     private  LocalDateTime dt;
-    private long toWhoom;
+    private long toWhom;
     private long complainer;
     private String city;
     private long jobid;
