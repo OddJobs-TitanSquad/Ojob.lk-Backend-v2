@@ -35,18 +35,18 @@ public class PasswordController {
     public void getAllJobs(@PathVariable(value = "email") String email){
          JavaMailSender javaMailSender;
        Optional<User> optional=userRepository.findByEmail(email);
-
+        System.out.println("hgsghdh");
         User user = optional.get();
         user.setResetToken(UUID.randomUUID().toString());
 
         userRepository.save(user);
 
         mailService.sendEmail(user);
-
+        System.out.println(user.getEmail());
     }
 
-    @GetMapping("/user/forgotEmail")
-    public void makeComplain(@RequestBody String password,String resettoken ){
+    @GetMapping("/user/forgotEmail/{password}/{resettoken}")
+    public void makeComplain(@PathVariable(value = "password") String password,@PathVariable(value = "resettoken") String resettoken ){
         Optional<User> optional=userRepository.findByResetToken(resettoken);
         User user=optional.get();
         user.setResetToken(null);

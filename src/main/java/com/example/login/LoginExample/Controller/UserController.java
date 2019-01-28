@@ -116,4 +116,28 @@ public class UserController {
         user= optional.get();
         return user;
     }
+    @GetMapping("/user/all")
+    public Iterable<User> getAllUsers(){
+        return this.userRepository.findAll();
+    }
+    @RequestMapping(value = "/user/active/{id}", method = RequestMethod.POST)
+    public Boolean activeUser(@RequestBody User user, @PathVariable long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (!userOptional.isPresent())
+            return false;
+        user.setActive(true);
+        userRepository.save(user);
+        return true;
+    }
+
+
+    @RequestMapping(value = "/user/deactivate/{id}", method = RequestMethod.POST)
+    public Boolean deactivateUser(@RequestBody User user, @PathVariable long id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (!userOptional.isPresent())
+            return false;
+        user.setActive(false);
+        userRepository.save(user);
+        return true;
+    }
 }
