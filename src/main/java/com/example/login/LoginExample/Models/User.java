@@ -156,16 +156,7 @@ public class User  {
         this.roles = roles;
     }
 
-    public Set<Notification> getNotifications() {
-        return notifications;
-    }
 
-    public void setNotifications(Set<Notification> notifications) {
-        this.notifications = notifications;
-    }
-
-    @OneToMany(targetEntity = Notification.class, mappedBy = "id", orphanRemoval = false, fetch = FetchType.LAZY)
-    private Set<Notification> notifications;
 
 
 

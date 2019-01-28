@@ -16,6 +16,7 @@ public class RateController {
         return stars;
     }
 
+
     @RequestMapping(method = RequestMethod.POST)
     public Rate createCompletedJob(@RequestBody Rate rate){
 

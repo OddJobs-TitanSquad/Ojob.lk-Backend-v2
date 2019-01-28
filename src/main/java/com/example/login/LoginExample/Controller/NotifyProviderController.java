@@ -6,25 +6,26 @@ import com.example.login.LoginExample.Repository.NotifyProviderRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("api/user/NotifySeeker")
+@RequestMapping("api/user/NotifyProvider")
 public class NotifyProviderController {
 
     private NotifyProviderRepository np;
 
-    @GetMapping("/seeker/{userId}")
+    @GetMapping("/provider/{userId}")
     public List<NotifyProvider> completeSeeker(@PathVariable(value = "userId") long userId) {
         List<NotifyProvider> Notifies = np.NotifyProvider(userId);
         return Notifies;
     }
 
-    @RequestMapping(value = "/notifyProvider/delete", method = RequestMethod.DELETE)
-    public void delete(@RequestBody NotifyProvider notifyProvider) {
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public void delete(@PathVariable(value = "id") long id) {
+       Optional<NotifyProvider>  notipro=np.findById(id);
 
-        np.delete(notifyProvider);
-
+        np.delete(notipro.get());
 
     }
 }
