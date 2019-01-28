@@ -1,8 +1,6 @@
 package com.example.login.LoginExample.Controller;
 
 import com.example.login.LoginExample.Models.CompletedJob;
-import com.example.login.LoginExample.Models.FinalComplete;
-import com.example.login.LoginExample.Models.Notification;
 import com.example.login.LoginExample.Repository.CompletedJobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,5 +43,15 @@ public class CompletedJobController {
         return provider;
     }
 
+    @GetMapping("/countProvider/{userId}")
+    public int countProvider(@PathVariable(value = "userId") long userId) {
+        int  provider= completedJobRepository.CountByProvider(userId);
+        return provider;
+    }
 
+    @GetMapping("/countSeeker/{userId}")
+    public int countSeeker(@PathVariable(value = "userId") long userId) {
+        int  seeker= completedJobRepository.CountBySeeker(userId);
+        return seeker;
+    }
 }
