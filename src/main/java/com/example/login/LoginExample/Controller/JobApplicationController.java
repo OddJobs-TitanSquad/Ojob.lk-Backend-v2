@@ -55,7 +55,14 @@ public class JobApplicationController {
         jobApplicationRepository.save(jobApplication);
         return jobApplication;
     }
-    @RequestMapping(value = "/condfirm", method = RequestMethod.POST)
+    @RequestMapping(value = "/reject", method = RequestMethod.POST)
+    public JobApplication rejectJobApplication(@RequestBody JobApplication jobApplication) {
+        jobApplication.setIsRejected(true);
+        jobApplication.setRejectedDate(getTimeStamp());
+        jobApplicationRepository.save(jobApplication);
+        return jobApplication;
+    }
+    @RequestMapping(value = "/confirm", method = RequestMethod.POST)
     public JobApplication confirmJobApplication(@RequestBody JobApplication jobApplication) {
         jobApplication.setIsConfirmed(true);
         jobApplication.setAcceptedDate(getTimeStamp());
