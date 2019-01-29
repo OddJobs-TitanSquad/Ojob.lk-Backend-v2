@@ -66,7 +66,7 @@ public class JobPaymentController {
         return cal.getTime();
     }
     public int getPackegeDuration(int packageId){
-        PaymentPackageController paymentPackageController = new PaymentPackageController(this.paymentPackageRepository);
+        PaymentPackageController paymentPackageController = new PaymentPackageController(this.paymentPackageRepository,this.jobPaymentRepository);
         return paymentPackageController.getPackagesById(packageId).getPackageDuration();
     }
 }

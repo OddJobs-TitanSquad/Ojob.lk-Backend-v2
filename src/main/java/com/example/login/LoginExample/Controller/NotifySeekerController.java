@@ -3,6 +3,7 @@ package com.example.login.LoginExample.Controller;
 import com.example.login.LoginExample.Models.NotifyProvider;
 import com.example.login.LoginExample.Models.NotifySeeker;
 import com.example.login.LoginExample.Repository.NotifySeekerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @RequestMapping("api/user/NotifySeeker")
 public class NotifySeekerController {
 
+    @Autowired
  private NotifySeekerRepository ns;
 
     @GetMapping("/seeker/{userId}")

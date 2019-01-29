@@ -19,12 +19,14 @@ public interface JobPostRepository extends JpaRepository<JobPost,Long> {
     @Query("SELECT DISTINCT p.city FROM JobPost p")
     List<String> getAllCities();
 
-    @Query("SELECT p FROM JobPost p WHERE p.city=:city")
-    List<JobPost> getJobByCity(@Param("city") String city);
+    @Query("SELECT p FROM  JobPost p WHERE p.isPublish= :boo and current_timestamp >= p.publishOnDate and current_timestamp < p.expireDate and p.city = :city")
+    List<JobPost> getJobByCity(@Param("city") String city,@Param("boo") boolean bool);
 
-    @Query("SELECT p FROM JobPost p WHERE p.jobType=:jobtype")
+    @Query("SELECT p FROM JobPost p WHERE p.jobType=:jobtype and p.isPublish=?1 and current_timestamp >= p.publishOnDate and current_timestamp < p.expireDate")
     List<JobPost> getJobByType(@Param("jobtype") String jobtype);
 
     @Query("SELECT p FROM  JobPost p WHERE p.isPublish=?1 and current_timestamp >= p.publishOnDate and current_timestamp < p.expireDate")
     List<JobPost> findAllValidJobs(boolean boo);
+
+
 }
