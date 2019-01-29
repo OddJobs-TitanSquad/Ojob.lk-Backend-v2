@@ -2,8 +2,13 @@ package com.example.login.LoginExample.Controller;
 
 import com.example.login.LoginExample.Models.Complain;
 import com.example.login.LoginExample.Repository.ComplainRepository;
+import com.sun.istack.internal.NotNull;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -25,6 +30,7 @@ public class ComplainController {
         complainRepository.save(complain);
         return true;
     }
+
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public @ResponseBody
     Iterable<Complain> getAllComplains() {
@@ -40,8 +46,27 @@ public class ComplainController {
             System.out.println(e.getMessage());
             return false;
         }
+
+
     }
 
+
+    public Date getTimeStamp(){
+        Date date = new Date();
+        return new Timestamp(date.getTime());
+    }
+
+    @RequestMapping(value = "/create",method = RequestMethod.POST)
+    public void createComplain(@RequestBody Complain complain){
+        complain.setDt(getTimeStamp());
+        complainRepository.save(complain);
+    }
+
+    /*@RequestMapping(value = "/replies/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<Complain> complainReplies(@PathVariable long id) {
+        return complainRepository.complainReplies( );
+    }*/
 
 
 }

@@ -30,6 +30,7 @@ public class JwtTokenProvider {
 
         return Jwts.builder()
                 .setSubject(Long.toString(userPrincipal.getId()))
+
                 .setAudience(Boolean.toString(userPrincipal.isAdmin()))
                 .setIssuer(Boolean.toString((userPrincipal.getActive())))
                 .setIssuedAt(new Date())

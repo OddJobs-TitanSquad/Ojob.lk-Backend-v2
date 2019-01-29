@@ -69,6 +69,12 @@ public class JobApplicationController {
         jobApplicationRepository.save(jobApplication);
         return jobApplication;
     }
+    @RequestMapping(value = "/complete", method = RequestMethod.POST)
+    public JobApplication completeJobApplication(@RequestBody JobApplication jobApplication) {
+        jobApplication.setIsCompleted(true);
+        jobApplicationRepository.save(jobApplication);
+        return jobApplication;
+    }
     @RequestMapping(value = "user/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Iterable<JobApplication> getAllJobApplicationsByUserId(@PathVariable long id) {

@@ -2,9 +2,7 @@ package com.example.login.LoginExample.Models;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity // Says that this is the Entity
 
@@ -13,11 +11,13 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @ToString
 @EqualsAndHashCode
+@Table
 public class PaymentPackage {
     @Id
     @GeneratedValue
     private int packageId;
     private String packageName;
+    @Column(unique=true)
     private int packageDuration;
     private int price;
 }

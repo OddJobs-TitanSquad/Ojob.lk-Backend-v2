@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -146,6 +147,27 @@ public class JobPostController {
     Iterable<JobPost> getValidJobs(){
         return jobPostRepository.findAllValidJobs(true);
     }
+
+    @RequestMapping(value = "/get-cities", method = RequestMethod.GET)
+    public @ResponseBody
+    List<String> getAllDistinctCities(){
+        return jobPostRepository.getAllCities();
+    }
+
+    @RequestMapping(value = "/city/{city}", method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<JobPost> getAllJobsByCity(@PathVariable String city){
+        return jobPostRepository.getJobByCity(city,true);
+
+    }
+    @RequestMapping(value = "/type/{jobtype}", method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<JobPost> getAllJobsByType(@PathVariable String jobtype){
+        return jobPostRepository.getJobByType(jobtype);
+
+    }
+
+
 
 
     public int getDiff(Date d1, Date d2) {

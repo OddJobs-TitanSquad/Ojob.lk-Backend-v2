@@ -10,4 +10,5 @@ import java.util.List;
 public interface NotifyProviderRepository extends JpaRepository<NotifyProvider,Long> {
     @Query("SELECT c FROM NotifyProvider c WHERE c.userId= :id")
     List<NotifyProvider> NotifyProvider(@Param("id") long id);
+
 }
