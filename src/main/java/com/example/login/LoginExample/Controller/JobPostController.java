@@ -163,7 +163,7 @@ public class JobPostController {
     @RequestMapping(value = "/type/{jobtype}", method = RequestMethod.GET)
     public @ResponseBody
     Iterable<JobPost> getAllJobsByType(@PathVariable String jobtype){
-        return jobPostRepository.getJobByType(jobtype);
+        return jobPostRepository.getJobByType(jobtype, true);
 
     }
 

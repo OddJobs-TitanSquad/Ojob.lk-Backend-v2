@@ -62,11 +62,11 @@ public class ComplainController {
         complainRepository.save(complain);
     }
 
-    /*@RequestMapping(value = "/replies/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/replies/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Iterable<Complain> complainReplies(@PathVariable long id) {
-        return complainRepository.complainReplies( );
-    }*/
+        return complainRepository.complainReplies(id);
+    }
 
 
 }

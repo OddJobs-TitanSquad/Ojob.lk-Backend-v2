@@ -16,9 +16,9 @@ import java.util.Date;
 public class CompletedJob {
     @Id
     @GeneratedValue
-    private long completedJobId;
-    private long employerId;
-    private long employeeId;
-    private long jobApplicationId;
+    private Long completedJobId;
+    private Long employerId;
+    private Long employeeId;
+    private Long jobApplicationId;
     private Date completedDateTime;
 }

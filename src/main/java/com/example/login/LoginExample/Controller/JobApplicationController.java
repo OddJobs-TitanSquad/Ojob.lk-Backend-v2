@@ -93,4 +93,12 @@ public class JobApplicationController {
         ja= optional.get();
         return ja.getApplicationId();
     }
+
+    @RequestMapping(value = "seeker/{id}", method = RequestMethod.GET)
+    public @ResponseBody
+    Iterable<JobApplication> getAllJobApplicationsBySeekerId(@PathVariable long id) {
+        return jobApplicationRepository.findBySeekerId(id);
+    }
+
+
 }

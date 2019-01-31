@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ComplainRepository extends JpaRepository<Complain,Long> {
 
-   /* @Query("SELECT c FROM Complain c WHERE c.complainer= :id AND c.adminReply =:adminReply ")
-    List<Complain> complainReplies(@Param("id") long id,@Param("adminReply") String adminReply );*/
+   @Query("SELECT c FROM Complain c WHERE c.complainer= :id AND c.adminReply IS NOT NULL ")
+    List<Complain> complainReplies(@Param("id") long id);
 }

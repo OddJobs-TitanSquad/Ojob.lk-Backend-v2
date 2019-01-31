@@ -19,15 +19,9 @@ public class JobTypeController {
 
     @RequestMapping(method = RequestMethod.POST)
     public Boolean createJobType(@RequestBody JobType jobType) {
-
-        try{
-            jobTypeRepository.findByJobType(jobType.getJobType());
-            return false;
-        }catch (Exception e){
             jobTypeRepository.save(jobType);
             return true;
         }
-    }
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public Boolean deleteJobType( @PathVariable long id) {
         try{

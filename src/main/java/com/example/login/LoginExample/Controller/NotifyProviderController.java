@@ -19,7 +19,9 @@ public class NotifyProviderController {
 
     @GetMapping("/provider/{userId}")
     public Iterable<NotifyProvider> completeSeeker(@PathVariable(value = "userId") long userId) {
+
          return  np.NotifyProvider(userId);
+
 
     }
 

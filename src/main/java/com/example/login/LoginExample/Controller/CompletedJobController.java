@@ -21,10 +21,16 @@ public class CompletedJobController {
         this.completedJobRepository=completedJobRepository;
     }
     @RequestMapping(method = RequestMethod.POST)
-    public CompletedJob createCompletedJob(@RequestBody CompletedJob completedJob){
-        completedJob.setCompletedDateTime(getTimeStamp());
-        return completedJobRepository.save(completedJob);
+    public Boolean createCompletedJob(@RequestBody CompletedJob completedJob){
+        try {
+            completedJob.setCompletedDateTime(getTimeStamp());
+            completedJobRepository.save(completedJob);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
+
     public Date getTimeStamp(){
         Date date = new Date();
         return new Timestamp(date.getTime());
@@ -48,6 +54,10 @@ public class CompletedJobController {
     public int countProvider(@PathVariable(value = "userId") long userId) {
         int  provider= completedJobRepository.CountByProvider(userId);
         return provider;
+    }
+    @GetMapping("/all")
+    Iterable<CompletedJob> getAllCompleted() {
+        return this.completedJobRepository.findAll();
     }
 
     @GetMapping("/countSeeker/{userId}")
